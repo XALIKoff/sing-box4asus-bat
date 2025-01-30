@@ -1,3 +1,5 @@
+# BAT Scripts for https://github.com/Dr4tez/sing-box4asus by Dr4tez
+
 # Instructions for Using BAT Scripts
 
 ## Overview
@@ -81,7 +83,7 @@ plink.exe -ssh ROUTER_USER@ROUTER_IP -P ROUTER_PORT -pw ROUTER_PASSWORD "cat /PA
 - Using SSH with a password is less secure; consider using SSH keys.
 
 ---
-
+# BAT Скрипты для https://github.com/Dr4tez/sing-box4asus от Dr4tez
 # Инструкция по использованию BAT-скриптов
 
 ## Обзор
