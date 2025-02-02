@@ -1,3 +1,7 @@
 @echo off
 chcp 65001 >nul
-plink.exe -ssh admin@ROUTER_IP -P 1024 -pw ROUTER_PASSWORD "sbs restart"
+
+:: Загружаем конфигурацию
+call config.bat
+
+plink.exe -ssh %SSH_USER%@%ROUTER_IP% -P %SSH_PORT% -pw %SSH_PASS% "sbs restart"

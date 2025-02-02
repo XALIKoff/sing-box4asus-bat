@@ -2,6 +2,9 @@
 chcp 65001 >nul
 setlocal enabledelayedexpansion
 
+:: Загружаем конфигурацию
+call config.bat
+
 :: Запрос ввода доменов у пользователя
 set /p domains=Введите домены, разделенные запятыми: 
 
@@ -15,10 +18,10 @@ for %%D in (%domains%) do (
     echo Проверяем домен: !domain!
 
     :: Проверяем, существует ли домен в JSON
-    plink.exe -ssh admin@ROUTER_IP -P 1024 -pw ROUTER_PASSWORD "grep -q '\"!domain!\"' /PATH/TO/CONFIG.JSON && echo \"!domain! уже существует\" || echo \"!domain! не найден в JSON\""
+    plink.exe -ssh %SSH_USER%@%ROUTER_IP% -P %SSH_PORT% -pw %SSH_PASS% "grep -q '\"!domain!\"' %JSON_PATH% && echo \"!domain! уже существует\" || echo \"!domain! не найден в JSON\""
     
     :: Если домен не найден, ставим флаг добавления
-    plink.exe -ssh admin@ROUTER_IP -P 1024 -pw ROUTER_PASSWORD "grep -q '\"!domain!\"' /PATH/TO/CONFIG.JSON || echo 1"
+    plink.exe -ssh %SSH_USER%@%ROUTER_IP% -P %SSH_PORT% -pw %SSH_PASS% "grep -q '\"!domain!\"' %JSON_PATH% || echo 1"
     if !errorlevel! equ 0 (
         set added=1
     )
@@ -27,7 +30,7 @@ for %%D in (%domains%) do (
 :: Если хотя бы один домен был добавлен, останавливаем службу
 if %added% equ 1 (
     echo Останавливаем службу sbs...
-    plink.exe -ssh admin@ROUTER_IP -P 1024 -pw ROUTER_PASSWORD "sbs stop"
+    plink.exe -ssh %SSH_USER%@%ROUTER_IP% -P %SSH_PORT% -pw %SSH_PASS% "sbs stop"
     if %errorlevel% neq 0 (
         echo Не удалось остановить службу sbs.
         pause
@@ -42,12 +45,12 @@ for %%D in (%domains%) do (
     echo Добавляем домен: !domain!
 
     :: Добавляем домен в JSON
-    plink.exe -ssh admin@ROUTER_IP -P 1024 -pw ROUTER_PASSWORD "grep -q '\"!domain!\"' /PATH/TO/CONFIG.JSON || sed -i '/\"domain_suffix\": \[/a\    \"!domain!\",' /PATH/TO/CONFIG.JSON"
+    plink.exe -ssh %SSH_USER%@%ROUTER_IP% -P %SSH_PORT% -pw %SSH_PASS% "grep -q '\"!domain!\"' %JSON_PATH% || sed -i '/\"domain_suffix\": \[/a\    \"!domain!\",' %JSON_PATH%"
 )
 
 :: Запуск службы после изменений
 echo Запускаем службу sbs...
-plink.exe -ssh admin@ROUTER_IP -P 1024 -pw ROUTER_PASSWORD "sbs start"
+plink.exe -ssh %SSH_USER%@%ROUTER_IP% -P %SSH_PORT% -pw %SSH_PASS% "sbs start"
 if %errorlevel% neq 0 (
     echo Не удалось запустить службу sbs.
     pause
