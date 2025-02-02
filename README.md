@@ -1,10 +1,10 @@
 # BAT Scripts for https://github.com/Dr4tez/sing-box4asus by Dr4tez
 
-# Instructions for Using BAT Scripts
+## Instructions for Using BAT Scripts
 
-## Overview
+### Overview
 
-These BAT scripts automate the process of managing domain list for sbs script by Dr4tez on an Asus router via SSH. The scripts use `plink.exe` (Putty) to establish an SSH connection and execute remote commands. Below is a breakdown of each script's functionality and necessary modifications.
+These BAT scripts automate the process of managing the domain list for the `sbs` script by Dr4tez on an Asus router via SSH. The scripts use `plink.exe` (Putty) to establish an SSH connection and execute remote commands. Configuration variables (such as router IP, SSH credentials, and JSON file path) are stored in `config.bat`, allowing for easier customization.
 
 ---
 
@@ -13,7 +13,6 @@ These BAT scripts automate the process of managing domain list for sbs script by
 ### 1. `add_domains.bat`
 
 **Function:**
-
 - Prompts the user to enter domain names separated by commas.
 - Checks if each domain already exists in the JSON file on the router.
 - If a new domain is found:
@@ -24,7 +23,6 @@ These BAT scripts automate the process of managing domain list for sbs script by
 ### 2. `remove_domains.bat`
 
 **Function:**
-
 - Prompts the user to enter domains to remove.
 - Checks if each domain exists in the JSON file.
 - If a domain is found:
@@ -35,43 +33,36 @@ These BAT scripts automate the process of managing domain list for sbs script by
 ### 3. `list_domains.bat`
 
 **Function:**
-
 - Retrieves the current domain list from the JSON file and displays it in the console.
 
 ### 4. `sbs_stop.bat`
 
 **Function:**
-
 - Stops the `sbs` service on the router.
 
 ### 5. `sbs_start.bat`
 
 **Function:**
-
 - Starts the `sbs` service on the router.
 
 ### 6. `sbs_restart.bat`
 
 **Function:**
-
 - Restarts the `sbs` service on the router.
 
 ---
 
-## Required Modifications
+## Configuration
 
-Before using the scripts, update the following placeholders with your router’s credentials and settings:
-
-- `ROUTER_IP` → Replace with your router’s actual IP address.
-- `ROUTER_PORT` → Replace with the correct SSH port (default is 22, but yours may be different).
-- `ROUTER_USER` → Replace with your SSH username.
-- `ROUTER_PASSWORD` → Replace with your SSH password.
-- `/PATH/TO/CONFIG.JSON` → Replace with the actual path to your domain list JSON file on the router.
-
-**Example Change:**
+Before using the scripts, update `config.bat` with your router’s credentials and settings:
 
 ```bat
-plink.exe -ssh ROUTER_USER@ROUTER_IP -P ROUTER_PORT -pw ROUTER_PASSWORD "cat /PATH/TO/CONFIG.JSON"
+@echo off
+set ROUTER_IP=192.168.1.1
+set SSH_PORT=22
+set SSH_USER=admin
+set SSH_PASS=your_password
+set JSON_PATH=/jffs/addons/sing-box-script/my_domains.json
 ```
 
 ---
@@ -79,16 +70,18 @@ plink.exe -ssh ROUTER_USER@ROUTER_IP -P ROUTER_PORT -pw ROUTER_PASSWORD "cat /PA
 ## Notes
 
 - Ensure `plink.exe` is available in the same directory or in your system’s PATH.
-- The router must have `jq` installed for JSON parsing.
+- The router must have `jq` installed for JSON parsing (`opkg install jq`).
 - Using SSH with a password is less secure; consider using SSH keys.
 
 ---
+
 # BAT Скрипты для https://github.com/Dr4tez/sing-box4asus от Dr4tez
-# Инструкция по использованию BAT-скриптов
 
-## Обзор
+## Инструкция по использованию BAT-скриптов
 
-Эти BAT-скрипты автоматизируют управление списком доменов для sbs скрипта Dr4tez на роутере через SSH. Для работы используется `plink.exe` (Putty), который подключается к роутеру и выполняет команды. Ниже описаны функции каждого скрипта и параметры, которые нужно изменить.
+### Обзор
+
+Эти BAT-скрипты автоматизируют управление списком доменов для `sbs` скрипта Dr4tez на роутере через SSH. Для работы используется `plink.exe` (Putty), который подключается к роутеру и выполняет команды. Все настройки (IP роутера, учетные данные SSH, путь к JSON-файлу) вынесены в `config.bat` для удобства настройки.
 
 ---
 
@@ -97,7 +90,6 @@ plink.exe -ssh ROUTER_USER@ROUTER_IP -P ROUTER_PORT -pw ROUTER_PASSWORD "cat /PA
 ### 1. `add_domains.bat`
 
 **Функция:**
-
 - Запрашивает у пользователя домены через запятую.
 - Проверяет, есть ли каждый домен в JSON-файле на роутере.
 - Если домена нет:
@@ -108,7 +100,6 @@ plink.exe -ssh ROUTER_USER@ROUTER_IP -P ROUTER_PORT -pw ROUTER_PASSWORD "cat /PA
 ### 2. `remove_domains.bat`
 
 **Функция:**
-
 - Запрашивает у пользователя список доменов для удаления.
 - Проверяет, есть ли домены в JSON-файле.
 - Если домен найден:
@@ -119,43 +110,36 @@ plink.exe -ssh ROUTER_USER@ROUTER_IP -P ROUTER_PORT -pw ROUTER_PASSWORD "cat /PA
 ### 3. `list_domains.bat`
 
 **Функция:**
-
 - Отображает текущий список доменов из JSON-файла.
 
 ### 4. `sbs_stop.bat`
 
 **Функция:**
-
 - Останавливает сервис `sbs` на роутере.
 
 ### 5. `sbs_start.bat`
 
 **Функция:**
-
 - Запускает сервис `sbs` на роутере.
 
 ### 6. `sbs_restart.bat`
 
 **Функция:**
-
 - Перезапускает сервис `sbs` на роутере.
 
 ---
 
-## Необходимые изменения
+## Конфигурация
 
-Перед использованием скриптов замените следующие значения на свои:
-
-- `ROUTER_IP` → Укажите IP-адрес роутера.
-- `ROUTER_PORT` → Укажите порт SSH (по умолчанию 22, но может быть другим).
-- `ROUTER_USER` → Укажите имя пользователя SSH.
-- `ROUTER_PASSWORD` → Укажите пароль SSH.
-- `/PATH/TO/CONFIG.JSON` → Укажите путь к JSON-файлу со списком доменов на роутере.
-
-**Пример изменения:**
+Перед использованием скриптов укажите свои параметры в `config.bat`:
 
 ```bat
-plink.exe -ssh ROUTER_USER@ROUTER_IP -P ROUTER_PORT -pw ROUTER_PASSWORD "cat /PATH/TO/CONFIG.JSON"
+@echo off
+set ROUTER_IP=192.168.1.1
+set SSH_PORT=22
+set SSH_USER=admin
+set SSH_PASS=your_password
+set JSON_PATH=/jffs/addons/sing-box-script/my_domains.json
 ```
 
 ---
@@ -163,6 +147,5 @@ plink.exe -ssh ROUTER_USER@ROUTER_IP -P ROUTER_PORT -pw ROUTER_PASSWORD "cat /PA
 ## Примечания
 
 - Убедитесь, что `plink.exe` находится в той же папке, что и скрипты, или прописан в переменной PATH.
-- На роутере должен быть установлен `jq` для обработки JSON. (`opkg install jq`)
+- На роутере должен быть установлен `jq` для обработки JSON (`opkg install jq`).
 - Использование SSH с паролем менее безопасно — рекомендуется настроить ключи SSH.
-
